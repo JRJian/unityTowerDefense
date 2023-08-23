@@ -1,0 +1,4 @@
+repository "TowerDefenseLearning@wechat_os_qy0_5ejtg_juppr1bqepzqm5s@cloud.cn"
+  path "/"
+    br "/main"
+    co "/main"

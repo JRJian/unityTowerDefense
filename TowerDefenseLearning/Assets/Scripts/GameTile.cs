@@ -32,6 +32,7 @@ public class GameTile : MonoBehaviour
     public void BecomeDestination() {
         distance = 0;
         nextOnPath = null;
+        ExitPoint = transform.localPosition;
     }
 
     public void clearPath() {
@@ -44,6 +45,9 @@ public class GameTile : MonoBehaviour
     public GameTile GrowPathSouth () => GrowPathTo(south);
     public GameTile GrowPathWest () => GrowPathTo(west);
 
+    public GameTile NextTileOnPath => nextOnPath;
+    public Vector3 ExitPoint { get; private set; }
+
     private GameTile GrowPathTo(GameTile neighbor) {
         Debug.Assert(HasPath, "No path!");
         if (neighbor == null || neighbor.HasPath) {
@@ -51,6 +55,7 @@ public class GameTile : MonoBehaviour
         }
         neighbor.distance = distance + 1;
         neighbor.nextOnPath = this;
+        neighbor.ExitPoint = (neighbor.transform.localPosition + transform.localPosition) * 0.5f;
 		return
 			neighbor.Content.Type != GameTileContentType.Wall ? neighbor : null;
     }

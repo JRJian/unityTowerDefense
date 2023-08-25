@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameBoard : MonoBehaviour
 {
@@ -22,9 +23,13 @@ public class GameBoard : MonoBehaviour
 
     Queue<GameTile> searchFrontier = new Queue<GameTile>();
 
+    List<GameTile> spawnPoints = new List<GameTile>();
+
     GameTileContentFactory contentFactory;
 
     bool showGrid, showPaths;
+
+    public int SpawnPointCount => spawnPoints.Count;
 
     public bool ShowGrid {
         get => showGrid;
@@ -94,6 +99,7 @@ public class GameBoard : MonoBehaviour
         }
 
         ToggleDestination(tiles[tiles.Length / 2]);
+        ToggleSpawnPoint(tiles[0]);
     }
 
 	public void ToggleDestination (GameTile tile) {
@@ -125,6 +131,20 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
+    public void ToggleSpawnPoint(GameTile tile) {
+        if (tile.Content.Type == GameTileContentType.SpawnPoint) {
+            // 至少有一个产卵点
+            if (spawnPoints.Count > 1) {
+                spawnPoints.Remove(tile);
+                tile.Content = contentFactory.Get(GameTileContentType.Empty);
+            }
+        }
+        else if (tile.Content.Type == GameTileContentType.Empty) {
+            tile.Content = contentFactory.Get(GameTileContentType.SpawnPoint);
+            spawnPoints.Add(tile);
+        }
+    }
+
     public GameTile GetTile(Ray ray) {
 		if (Physics.Raycast(ray, out RaycastHit hit)) {
 			int x = (int)(hit.point.x + size.x * 0.5f);
@@ -134,6 +154,10 @@ public class GameBoard : MonoBehaviour
 			}
 		}
 		return null;
+    }
+    
+    public GameTile GetSpawnPoint(int index) {
+        return spawnPoints[index];
     }
 
     private bool FindPaths() {

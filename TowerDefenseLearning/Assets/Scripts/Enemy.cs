@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour {
 	float pathOffset;
 	float speed = 1f;
 
+    public float Scale { get; private set; }
+
 	public EnemyFactory OriginFactory {
 		get => originFactory;
 		set {
@@ -52,6 +54,7 @@ public class Enemy : MonoBehaviour {
 		model.localScale = new Vector3(scale, scale, scale);
 		this.speed = speed;
 		this.pathOffset = pathOffset;
+		this.Scale = scale;
 	}
 
 	public void SpawnOn (GameTile tile) {

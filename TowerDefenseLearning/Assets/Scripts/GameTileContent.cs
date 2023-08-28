@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class GameTileContent : MonoBehaviour
 {
     [SerializeField]
@@ -10,6 +11,8 @@ public class GameTileContent : MonoBehaviour
 	GameTileContentFactory originFactory;
 
     public GameTileContentType Type => type;
+
+    public bool BlocksPath => Type == GameTileContentType.Wall || Type == GameTileContentType.Tower;
 
     public GameTileContentFactory OriginFactory {
         get => originFactory;
@@ -21,5 +24,9 @@ public class GameTileContent : MonoBehaviour
 
     public void Recycle() {
         originFactory.Reclaim(this);
+    }
+
+    public virtual void GameUpdate() {
+        Debug.Log("Searching for target...");
     }
 }

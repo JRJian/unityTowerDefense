@@ -63,6 +63,8 @@ public class Game : MonoBehaviour
 		}
 
 		enemies.GameUpdate();
+		Physics.SyncTransforms();
+		board.GameUpdate();
 	}
 
 	void HandleAlternativeTouch () {
@@ -80,7 +82,12 @@ public class Game : MonoBehaviour
 	void HandleTouch () {
 		GameTile tile = board.GetTile(TouchRay);
 		if (tile != null) {
-			board.ToggleWall(tile);
+			if (Input.GetKey(KeyCode.LeftShift)) {
+				board.ToggleTower(tile);
+			}
+			else {
+				board.ToggleWall(tile);
+			}
 		}
 	}
 

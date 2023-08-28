@@ -369,6 +369,8 @@
 "Assets/Scripts/GameTileContent.cs"
 "Assets/Scripts/GameTileContentFactory.cs"
 "Assets/Scripts/GameTileContentType.cs"
+"Assets/Scripts/TargetPoint.cs"
+"Assets/Scripts/Tower.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 
